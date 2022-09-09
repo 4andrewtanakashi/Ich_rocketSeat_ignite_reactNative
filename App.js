@@ -6,9 +6,9 @@
  * @flow strict-local
  */
 
-import React from 'react';
-import {Home} from './src/pages/Home';
+import React from 'react'
+import { Home } from './src/pages/Home'
 
-export default function App () {
-    return <Home />;
+export default function App() {
+  return <Home />
 }
