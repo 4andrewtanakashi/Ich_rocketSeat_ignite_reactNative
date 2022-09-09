@@ -11,16 +11,25 @@ import {
 import { Button } from '../components/Button'
 import { SkillCard } from '../components/SkillCard'
 
+interface SkillData {
+  id: string
+  name: string
+}
+
 export function Home() {
   const [newSkill, setNewSkill] = useState('')
-  const [mySkills, setMySkills] = useState([])
+  const [mySkills, setMySkills] = useState<SkillData[]>([])
   const [greetings, setGreetings] = useState('')
 
   function handleAddNewSkill() {
-    setMySkills(oldStateSkills => [...oldStateSkills, newSkill])
+    const data = {
+      id: String(new Date().getHours()),
+      name: newSkill
+    }
+    setMySkills(oldStateSkills => [...oldStateSkills, data])
   }
 
-  useEffect(_ => {
+  useEffect(() => {
     const currentHour = new Date().getHours()
 
     if (currentHour < 12) {
@@ -38,7 +47,7 @@ export function Home() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Welcome, React Native</Text>
-      <Text setyle={styles.greetings}>
+      <Text style={styles.greetings}>
         {greetings}!
       </Text>
 
@@ -48,7 +57,11 @@ export function Home() {
         placeholderTextColor={'#555'}
         onChangeText={setNewSkill}
       />
-      <Button onPress={handleAddNewSkill} />
+      <Button
+        title="Add"
+        activeOpacity={.7} 
+        onPress={handleAddNewSkill}
+      />
 
       <Text style={[styles.title, { marginVertical: 50 }]}>
         My Skills
@@ -56,9 +69,9 @@ export function Home() {
 
       <FlatList
         data={mySkills}
-        keyExtractor={item => item}
+        keyExtractor={item => item.id}
         renderItem={({ item }) => (
-          <SkillCard skill={item} />
+          <SkillCard skill={item.name} />
         )}
       />
     </View>
